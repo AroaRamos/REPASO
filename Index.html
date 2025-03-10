@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #titulo{
+            color: green;
+            background-color: yellow;
+            border: 2px solid green;
+            font-size: 5em;
+            text-align: center;
+            display: none; /*Oculto el texto hasta que no se ejecute el boton*/
+        }
+
+        #capa{
+            height: 200px;
+        }
+    </style>
+</head>
+<body>
+    
+    <button onclick="mediaPideDatos()">Calcular Media</button>
+    <button onclick="mediaLeeDatos()">Calcular media leyendo datos</button>
+    <button onclick="multiploPideDatos()">Múltiplo de 7</button>
+    <button onclick="diaSemana()">Dia de la semana</button>
+    <button id="boton-muestra">Muestra usuario</button> 
+    <button id="boton-color">Añade un poco de color</button>
+
+    <label for="n1">N1:</label> <input type="number" id="n1" min="1" placeholder="Número del 1 al 7">
+    <label for="n2">N2:</label> <input type="number" id="n2">
+    <label for="n3">N3:</label> <input type="number" id="n3">
+    <label for="n4">N4:</label> <input type="number" id="n4">
+
+    <p id="display"></p>
+    <h1 id="titulo"></h1>
+
+    <div id="capa">
+        <label for="color">Color</label>
+        <select name="color" id="color">
+            <option value="red" >Rojo</option>
+            <option value="green" selected>Verde</option>
+            <option value="yellow">Amarillo</option>
+            <option value="blue">Azul</option>
+        </select>
+    </div>
+
+    <h1>Formulario</h1>
+    <form action="registro.php" onsubmit="return validaFormulario()">
+        <label for="usuario">Usuario</label>
+        <input type="text" id="usuario">
+        <label for="">
+            <input type="checkbox" name="acepto" id="acepto">
+            He leído y acepto las condiciones
+        </label>
+        <input type="submit" value="registro">
+    </form>
+
+    <h1>Formulario de Solicitud</h1>
+    <form action="registro.php" onsubmit="return validaFormularioDeSolicitud()">
+
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre">
+
+        <label for="importe">Importe a solicitar</label>
+        <input type="number" id="importe">
+
+        <label for="edad">Edad</label>
+        <input type="number" id="edad">
+
+        <label for="">Situacion Laboral
+            <select name="sit-laboral" id="sit-laboral">
+                <option value="" selected>Elija una...</option>
+                <option value="Act">Activo</option>
+                <option value="des">Desempleado</option>
+                <option value="jub">Jubilado</option>
+            </select>
+        </label>
+    
+        <input type="submit" value="registro">
+    </form>
+
+    <script>
+        /*NO es correcto mezclar HTML con JavaScrip como en los 4 primeros botones
+        Es más correcto hacerlo como en el boton-muestra, -color, color, y el JavaScript aqui en Script*/
+        document.getElementById('boton-muestra').addEventListener('click', poneNombreUsuario);
+
+        document.getElementById('boton-color').addEventListener('click', poneColor);
+
+        document.getElementById('color').addEventListener('change', cambiaColor);
+        
+    
+
+        function mediaPideDatos(){
+            let n1 = prompt("Dime el primer número");
+            let n2 = prompt("Dime el segundo número");
+            let n3 = prompt("Dime el tercer número");
+            let n4 = prompt("Dime el cuarto número");
+            
+            alert("La media es: " + media4(Number(n1),Number(n2),Number(n3),Number(n4)));
+        }
+
+        function mediaLeeDatos(){
+            let n1 = document.getElementById("n1").value;/*Para coger el valor que esta dentro*/
+            let n2 = document.getElementById("n2").value;
+            let n3 = document.getElementById("n3").value;
+            let n4 = document.getElementById("n4").value;
+            document.getElementById("display").innerHTML = 
+            "La media es: " + media4(Number(n1),Number(n2),Number(n3),Number(n4));
+        }
+
+        function media4(n1,n2,n3,n4){
+            return (n1+n2+n3+n4)/4;
+        }
+
+        function multiploPideDatos(){
+            /*const n1 = prompt("Dime un número: ");
+
+            if(multiplo7(Number(n1))){
+                alert("ES múltiplo de 7");
+            }else{
+                alert("NO es múltiplo de 7");
+            }*/
+
+            /*Otra forma de hacerlo: Para coger los datos de N1*/
+            const n1 = document.getElementById('n1').value;
+            let display =document.getElementById('display');
+
+            if(multiplo7(Number(n1))){
+                display.innerHTML = n1 + " ES múlitplo de 7"
+            }else{
+                display.innerHTML = n1 + " NO múlitplo de 7"
+
+            }
+            
+        }
+
+        function multiplo7(n){
+            if(n%7 == 0){
+                return true;
+            }else{
+                return false;
+            }
+            /*UNA FORMA MAS ELEGANTE SERÍA HACER ESTE 
+            RETURN DIRECTAMENTE, Y TE EVITAS EL IF/ELSE:
+            return n%7 == 0*/
+        }
+
+        function diaSemana(){
+            const semana = ('Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo')
+            const n1 = document.getElementById('n1').value;
+            document.getElementById('display').innerHTML = semana[n1-1];
+
+        }
+
+        function poneNombreUsuario(){
+            const usuario = prompt("Dígame el nombre de usuario"); /*Sale una ventanita*/
+            document.getElementById("titulo").textContent = usuario; //.textContent es mas seguro que innerHTML, si lo que vamosa poner sabemos que es texto.
+            document.getElementById("titulo").style.display = 'block'; // Esto muestra el texto
+        }
+
+        function poneColor(){
+            document.getElementById('titulo').style.color = "palevioletred";
+            document.getElementById('titulo').style.backgroundColor = "peachpuff";
+            document.getElementById('titulo').style.fontSize = "7em";
+            document.getElementById('titulo').style.border = "3px dotted palevioletred";
+
+        }
+
+        function cambiaColor(){
+            const color = document.getElementById("color").value;
+            /*Esta es una manera de hacerlo*/
+            if (color == "green"){
+                document.getElementById("capa").style.backgroundColor = "green";
+            }
+            if (color == "red"){
+                document.getElementById("capa").style.backgroundColor = "red";
+            }
+            if (color == "yellow"){
+                document.getElementById("capa").style.backgroundColor = "yellow";
+            }
+            if (color == "blue"){
+                document.getElementById("capa").style.backgroundColor = "blue";
+            }
+
+            /*
+            Y esta otra (es menos correcta), y solo funciona porque el value que 
+            les he dado es el nombre de los colores correspondientes
+            document.getElementById("capa").style.backgroundColor = "color";
+            */
+
+        }
+
+        function validaFormulario(){
+            const usuario = document.querySelector("#usuario").value;
+            if(String(usuario).length < 5){
+                alert("La longitud del usuario no puede ser menor que 5");
+                return false;
+            }
+            if(document.querySelector("#acepto").checked == false){
+                alert("Debe aceptar las condiciones");
+                return false;
+            }
+            /*Como checked es un booleano, si pongo la exclamacion delante no es necesario ""== false"
+            if(!document.querySelector("#acepto").checked){
+                alert("Debe aceptar las condiciones");
+                return false;
+            }*/
+
+            return true;
+        }
+
+        function validaFormularioDeSolicitud(){
+            const nombre = document.querySelector("#nombre").value;
+            if(String(nombre).length < 5){
+                alert("La longitud del nombre debe tener mas de 5 letras");
+                return false
+            }
+            
+            if(document.querySelector("#sit-laboral").value == ""){
+                alert("Debe elegir una")
+                return false;
+            }
+            return true;
+        }
+
+
+
+        
+    </script>
+</body>
+</html>
