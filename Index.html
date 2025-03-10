@@ -17,6 +17,9 @@
         #capa{
             height: 200px;
         }
+        #mensaje-error{
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -80,6 +83,9 @@
     
         <input type="submit" value="registro">
     </form>
+
+    <h3 id="mensaje-error"></h3>
+
 
     <script>
         /*NO es correcto mezclar HTML con JavaScrip como en los 4 primeros botones
@@ -166,6 +172,13 @@
             document.getElementById('titulo').style.fontSize = "7em";
             document.getElementById('titulo').style.border = "3px dotted palevioletred";
 
+            /*También podria hacerlo así, agrupando estilos en una sola línea:
+            function poneColor() {
+                let titulo = document.getElementById('titulo');
+                titulo.style.cssText = "color: palevioletred; background-color: peachpuff; font-size: 7em; border: 3px dotted palevioletred;";
+            }
+            */
+
         }
 
         function cambiaColor(){
@@ -213,15 +226,30 @@
 
         function validaFormularioDeSolicitud(){
             const nombre = document.querySelector("#nombre").value;
-            if(String(nombre).length < 5){
-                alert("La longitud del nombre debe tener mas de 5 letras");
-                return false
-            }
-            
-            if(document.querySelector("#sit-laboral").value == ""){
-                alert("Debe elegir una")
+            const importe = Number(document.querySelector("#importe").value);
+            const edad = Number(document.querySelector("#edad").value);
+            const situacionLaboral = document.querySelector("#sit-laboral").value;
+            const mensajeError = document.querySelector("#mensaje-error");
+
+            mensajeError.innerHTML = ""; // Limpia mensajes anteriores
+
+            if (nombre == "") {
+                mensajeError.innerHTML = "Debe introducir un nombre.";
                 return false;
             }
+            if (importe <= 10000) {
+                mensajeError.innerHTML = "El importe debe ser mayor a 10.000 euros.";
+                return false;
+            }
+            if (edad >= 65) {
+                mensajeError.innerHTML = "Debe ser menor de 65 años.";
+                return false;
+            }
+            if (situacionLaboral === "") {
+                mensajeError.innerHTML = "Debe elegir una situación laboral.";
+                return false;
+            }
+
             return true;
         }
 
